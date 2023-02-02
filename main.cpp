@@ -58,12 +58,10 @@ int main() {
     absolute_time_t start = get_absolute_time();
 
     cout << "Going to transmit " << size(cool) << " bytes at " << FREQ << "kHz" << endl;
-    for (uint32_t i = 0; i < size(cool); i++) {
-        for (uint32_t j = 0; j < 8; j++) {
-            uint32_t tick = i * 8 + j + 1;
+    uint32_t limit = size(cool) * 8;
 
-            sleep_until(delayed_by_us(start, (uint64_t) (tick * 1e6 / FREQ)));
-            gpio_put(DATA, (cool[i] >> (7 - j)) & 1);
-        }
+    for (uint32_t tick = 0; tick < limit; tick++) {
+        sleep_until(delayed_by_us(start, (uint64_t) (tick * 1e6 / FREQ) + 1000));
+        gpio_put(DATA, (cool[tick / 8] >> (7 - (tick % 8))) & 1);
     }
 }
