@@ -54,7 +54,6 @@ int main() {
     stdio_init_all();
     gpio_init(DATA);
     gpio_set_dir(DATA, GPIO_OUT);
-    gpio_pull_up(DATA);
 
     while (!stdio_usb_connected()) {
     }
@@ -62,11 +61,12 @@ int main() {
 
     absolute_time_t start = get_absolute_time();
 
+    cout << "Ready to transmit " << size(cool) << " bytes at " << FREQ << "kHz" << endl;
     for (uint32_t i = 0; i < size(cool); i++) {
         for (uint32_t j = 0; j < 8; j++) {
-            uint32_t tick = i * 8 + j;
+            uint32_t tick = i * 8 + j + 1;
 
-            sleep_until(delayed_by_us(start, (uint64_t) ((++tick * 1e6) / FREQ)));
+            sleep_until(delayed_by_us(start, (uint64_t) (tick * 1e6 / FREQ)));
             gpio_put(DATA, (cool[i] >> (7 - j)) & 1);
         }
     }
