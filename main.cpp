@@ -19,6 +19,7 @@ int main() {
     gpio_init(DATA);
     gpio_set_dir(DATA, GPIO_OUT);
     gpio_set_drive_strength(DATA, GPIO_DRIVE_STRENGTH_12MA);
+    gpio_set_slew_rate(DATA, GPIO_SLEW_RATE_FAST);
 
     absolute_time_t start = get_absolute_time();
 
