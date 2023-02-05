@@ -27,7 +27,9 @@ int main() {
     uint32_t limit = size(off) * 8;
 
     for (uint32_t tick = 0; tick < limit; tick++) {
-        busy_wait_until(delayed_by_us(start, (uint64_t) (tick * 1e6 / FREQ) + 1000));
+//        busy_wait_until(delayed_by_us(start, (uint64_t) (tick * 1e6 / FREQ) + 1000));
+        busy_wait_us(1e6 / FREQ);
+
         gpio_put(DATA, (off[tick / 8] >> (7 - (tick % 8))) & 1);
     }
 }
